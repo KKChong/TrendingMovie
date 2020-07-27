@@ -10,4 +10,9 @@ TMDB API key
 The app uses the [TMDB API](https://www.themoviedb.org/) to get the movie informations. To use the API,
 you need to register an account and get the API Key
 
-Once you have the API KEY, add your api key to MovieService class.
+Once you have the key, add this line to the `gradle.properties` file, either in your user home
+directory (usually `~/.gradle/gradle.properties` on Linux and Mac) or in the project's root folder:
+
+```
+tmdb_api=<your tmdb api key>
+```

@@ -14,8 +14,10 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "TMDB_API_KEY", "\"" + getTmdbApiKey() + "\"")
+        buildConfigField("String", "TMDB_BASE_URL", "\"https://api.themoviedb.org/3/\"")
     }
 
     buildTypes {
@@ -83,5 +85,8 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+}
 
+def getTmdbApiKey() {
+    return project.findProperty("tmdb_api")
 }
