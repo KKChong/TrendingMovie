@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Trending Movies</string>
+    <string name="overview">Overview</string>
+    <string name="format_runtime">%1$d min</string>
 </resources>

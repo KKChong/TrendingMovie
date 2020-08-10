@@ -9,8 +9,12 @@
         <item name="android:windowBackground">@drawable/bg_windows</item>
 
         <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.RatingBar">
+        <item name="colorControlNormal">#C6C2C2</item>
     </style>
 
 </resources>

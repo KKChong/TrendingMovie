@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import my.com.trendingmovies.model.Movie
 import my.com.trendingmovies.model.Resource
 import my.com.trendingmovies.repository.MovieRepository
@@ -16,6 +18,7 @@ class MovieDetailsViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _movie = MutableLiveData<Resource<Movie>>()
+    private val compositeDisposable = CompositeDisposable()
 
     val movie: LiveData<Resource<Movie>>
         get() = _movie
@@ -23,9 +26,22 @@ class MovieDetailsViewModel @ViewModelInject constructor(
     init {
         if (savedStateHandle.contains("movieId")) {
             val movieId = savedStateHandle.get<Long>("movieId")
-            Timber.i("movieId: $movieId")
+            compositeDisposable.addAll(
+                movieRepository.getMovieDetails(movieId!!)
+                    .doOnSubscribe { _movie.value = Resource.Loading() }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        { movie -> _movie.value = Resource.Success(movie) },
+                        { error -> _movie.value = Resource.Error(error.message!!) }
+                    )
+            )
         } else {
             _movie.value = Resource.Error("OMG, unable to get the argument!!")
         }
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
+        super.onCleared()
     }
 }
