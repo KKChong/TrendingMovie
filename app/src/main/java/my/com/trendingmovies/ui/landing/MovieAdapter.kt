@@ -3,6 +3,7 @@ package my.com.trendingmovies.ui.landing
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_movie.view.*
 import my.com.trendingmovies.R
@@ -31,6 +32,12 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(movie: Movie) {
+            itemView.setOnClickListener {
+                val directions =
+                    LandingFragmentDirections.actionLandingFragmentToMovieDetailsFragment(movie.id!!)
+                it.findNavController().navigate(directions)
+            }
+
             itemView.apply {
                 GlideApp.with(ivPoster)
                     .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
