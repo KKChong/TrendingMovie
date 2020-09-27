@@ -47,7 +47,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/standard"
         app:behavior_overlapTop="68dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -58,7 +57,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/standard">
 
                 <my.com.trendingmovies.customview.RatioImageView
                     android:id="@+id/ivPoster"
@@ -163,6 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/standard"
                 android:layout_marginBottom="@dimen/standard"
+                android:paddingHorizontal="@dimen/standard"
                 android:text="@string/overview"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
@@ -170,8 +171,28 @@
                 android:id="@+id/tvOverview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/standard"
                 tools:maxLines="5"
                 tools:text="@tools:sample/lorem/random" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard"
+                android:layout_marginBottom="@dimen/standard"
+                android:paddingHorizontal="@dimen/standard"
+                android:text="@string/casts"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/standard"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_cast" />
+
 
         </LinearLayout>
 

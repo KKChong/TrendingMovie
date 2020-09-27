@@ -36,7 +36,8 @@ data class Movie(
     @Json(name = "media_type")
     val mediaType: String?,
     val genres: List<Genre>?,
-    val runtime: Long?
+    val runtime: Long?,
+    val credits: Credit?
 )
 
 @JsonClass(generateAdapter = true)
