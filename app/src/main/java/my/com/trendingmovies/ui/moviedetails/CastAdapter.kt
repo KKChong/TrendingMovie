@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,12 @@ class CastAdapter : ListAdapter<Cast, CastAdapter.CastViewHolder>(COMPARATOR) {
 
         fun bind(cast: Cast) {
             itemView.apply {
+
+                setOnClickListener {
+                    it.findNavController().navigate(
+                        MovieDetailsFragmentDirections.actionMovieDetailsFragmentToCastFragment(cast)
+                    )
+                }
 
                 // Always show 2.5 items on the screen
                 val paddingSize = 8f.toPx()

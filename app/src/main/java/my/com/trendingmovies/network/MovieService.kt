@@ -1,6 +1,7 @@
 package my.com.trendingmovies.network
 
 import io.reactivex.rxjava3.core.Single
+import my.com.trendingmovies.model.Cast
 import my.com.trendingmovies.model.Movie
 import my.com.trendingmovies.model.Movies
 import retrofit2.http.GET
@@ -14,4 +15,7 @@ interface MovieService {
 
     @GET("movie/{movieId}?append_to_response=credits")
     fun getMovie(@Path("movieId") movieId: Long): Single<Movie>
+
+    @GET("person/{id}")
+    fun getCastDetails(@Path("id") castId: Long): Single<Cast>
 }
