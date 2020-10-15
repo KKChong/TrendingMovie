@@ -51,6 +51,7 @@ dependencies {
     def hilt_version = "2.28-alpha"
     def hilt_jetpack = "1.0.0-alpha01"
     def glide_version = "4.11.0"
+    def assisted_inject = "0.6.0"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -90,6 +91,11 @@ dependencies {
 
     implementation "androidx.paging:paging-runtime:$paging_version"
     implementation "androidx.paging:paging-rxjava3:$paging_version"
+
+    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assisted_inject"
+    kapt "com.squareup.inject:assisted-inject-processor-dagger2:$assisted_inject"
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
 }
 
