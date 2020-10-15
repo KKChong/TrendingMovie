@@ -9,6 +9,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import my.com.trendingmovies.model.Cast
 import my.com.trendingmovies.model.Movie
+import my.com.trendingmovies.model.ProfileImage
 import my.com.trendingmovies.network.MovieService
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,5 +38,13 @@ class MovieRepository @Inject constructor(
     fun getCastDetails(castId: Long): Single<Cast> {
         return movieService.getCastDetails(castId)
             .subscribeOn(Schedulers.io())
+    }
+
+    fun getPersonImages(castId: Long): Single<List<ProfileImage>> {
+        return movieService.getPersonImages(castId)
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.profiles
+            }
     }
 }

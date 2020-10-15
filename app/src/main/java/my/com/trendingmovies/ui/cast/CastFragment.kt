@@ -36,6 +36,7 @@ class CastFragment : Fragment(R.layout.fragment_cast) {
         tvName.text = cast.name
 
         viewPager2.adapter = ViewPagerAdapter(this, cast.id)
+        viewPager2.offscreenPageLimit = 2
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
@@ -61,7 +62,7 @@ class ViewPagerAdapter(fragment: Fragment, private val castId: Long) :
                 AboutFragment.newInstance(castId)
             }
             else -> {
-                PhotoFragment.newInstance("1", "2")
+                PhotoFragment.newInstance(castId)
             }
         }
     }

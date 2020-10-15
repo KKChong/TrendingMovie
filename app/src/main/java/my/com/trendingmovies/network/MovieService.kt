@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import my.com.trendingmovies.model.Cast
 import my.com.trendingmovies.model.Movie
 import my.com.trendingmovies.model.Movies
+import my.com.trendingmovies.model.Profile
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,4 +19,7 @@ interface MovieService {
 
     @GET("person/{id}")
     fun getCastDetails(@Path("id") castId: Long): Single<Cast>
+
+    @GET("person/{id}/images")
+    fun getPersonImages(@Path("id") castId: Long): Single<Profile>
 }

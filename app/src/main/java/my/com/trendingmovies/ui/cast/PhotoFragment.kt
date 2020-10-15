@@ -1,59 +1,81 @@
 package my.com.trendingmovies.ui.cast
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_photo.*
 import my.com.trendingmovies.R
+import my.com.trendingmovies.model.Status
+import javax.inject.Inject
+import kotlin.properties.Delegates
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_CAST_ID = "castId"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PhotoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class PhotoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+@AndroidEntryPoint
+class PhotoFragment : Fragment(R.layout.fragment_photo) {
+    private var castId by Delegates.notNull<Long>()
+
+    private lateinit var photoAdapter: PhotoAdapter
+
+    @Inject
+    lateinit var photoViewModelFactory: PhotoViewModel.AssistedFactory
+
+    private val photoViewModel: PhotoViewModel by viewModels {
+        PhotoViewModel.provideFactory(
+            photoViewModelFactory,
+            castId
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            castId = it.getLong(ARG_CAST_ID)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photo, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        srl.isEnabled = false
+
+        photoAdapter = PhotoAdapter()
+
+        rvPhoto.apply {
+            layoutManager = GridLayoutManager(requireContext(), 3)
+            adapter = photoAdapter
+        }
+
+        photoViewModel.photo.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    photoAdapter.submitList(it.data)
+                    showLoading(false)
+                }
+                Status.ERROR -> {
+                    showLoading(false)
+                    Snackbar.make(requireView(), it.message!!, Snackbar.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> showLoading(true)
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        srl.isRefreshing = isLoading
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PhotoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(castId: Long) =
             PhotoFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putLong(ARG_CAST_ID, castId)
                 }
             }
     }
