@@ -12,6 +12,6 @@ interface MovieService {
     @GET("trending/all/day")
     fun getTrendingMovie(@Query("page") page: Int): Single<Movies>
 
-    @GET("movie/{movieId}")
+    @GET("movie/{movieId}?append_to_response=credits")
     fun getMovie(@Path("movieId") movieId: Long): Single<Movie>
 }
